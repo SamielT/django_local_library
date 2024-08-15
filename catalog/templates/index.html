@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+<head>
+    {% block title %}<title>Local Library - Home</title>{% endblock %}
+</head>
+
+{% block content %}
+  <h1>Local Library Home</h1>
+  <p>
+    Welcome to LocalLibrary, a website developed by
+    <em>Mozilla Developer Network</em>!
+  </p>
+  <h2>Dynamic content</h2>
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Books:</strong> {{ num_books }}</li>
+    <li><strong>Copies:</strong> {{ num_instances }}</li>
+    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+    <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Genres:</strong> {{ num_genres }}</li>
+  </ul>
+
+  <h2>Search for a book</h2>
+  <form method="get" action=".">
+    <input type="text" id="search-box" name="word" value="{{ particular_word }}">
+    <button type="submit">Search</button>
+  </form>
+
+  {% if particular_word %}
+  <p>Results for '{{ particular_word }}'': <strong>{{ num_books_containing_word }}</strong></p>
+  <ul>
+    {% for book in books_containing_word %}
+      <li>{{ book.title }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endblock %}
