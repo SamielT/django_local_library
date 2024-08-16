@@ -29,7 +29,7 @@
   <p>Results for '{{ particular_word }}'': <strong>{{ num_books_containing_word }}</strong></p>
   <ul>
     {% for book in books_containing_word %}
-      <li>{{ book.title }}</li>
+      <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})</li>
     {% endfor %}
   </ul>
   {% endif %}

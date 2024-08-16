@@ -25,7 +25,7 @@ def index(request):
     if 'word' in request.GET:
         particular_word = request.GET['word']
         books_containing_word = Book.objects.filter(title__icontains=particular_word)
-        num_books_containing_word = Book.objects.filter(title__icontains=particular_word).count()
+        num_books_containing_word = books_containing_word.count()
 
     context = {
         'num_books': num_books,
@@ -41,16 +41,18 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
+# All books
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 1
-    
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get the context
-        context = super(BookListView, self).get_context_data(**kwargs)
-        # Create any data and add it to the context
-        context['some_data'] = 'This is just some data'
-        return context
+    paginate_by = 2
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+# All authors
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 2
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
