@@ -63,11 +63,9 @@
           <div class="pagination">
             <span class="page-links">
               {% if page_obj.has_previous %}
-                <a href="{{ request.path }}?page=1">&laquo;&laquo;</a>
-                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                <button onclick="window.location.href='{{ request.path }}?page=1'">&laquo;</button>
               {% else %}
-                <span class="disabled">&laquo;&laquo;</span>
-                <span class="disabled">&laquo;</span>
+                <button class="disabled" disabled>&laquo;</button>
               {% endif %}
       
               {% for num in page_obj.paginator.page_range %}
@@ -81,11 +79,9 @@
               {% endfor %}
       
               {% if page_obj.has_next %}
-                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&raquo;</a>
-                <a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a>
+                <button onclick="window.location.href='{{ request.path }}?page={{ page_obj.paginator.num_pages }}'">&raquo;</button>
               {% else %}
-                <span class="disabled">&raquo;</span>
-                <span class="disabled">&raquo;&raquo;</span>
+                <button class="disabled" disabled>&raquo;</button>
               {% endif %}
             </span>
           </div>
