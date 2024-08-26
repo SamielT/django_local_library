@@ -1,7 +1,6 @@
 {% extends "base_generic.html" %}
-<head>
-    {% block title %}<title>Local Library - Home</title>{% endblock %}
-</head>
+
+{% block title %}<title>Local Library - Home</title>{% endblock %}
 
 {% block content %}
   <h1>Local Library Home</h1>
@@ -19,21 +18,9 @@
     <li><strong>Genres:</strong> {{ num_genres }}</li>
   </ul>
 
-  <h2>Search for a book</h2>
-  <form method="get" action=".">
-    <input type="text" id="search-box" name="word" value="{{ particular_word }}">
-    <button type="submit">Search</button>
-  </form>
+  {% include 'catalog/book_search.html' %}
 
-  {% if particular_word %}
-  <p>Results for '{{ particular_word }}'': <strong>{{ num_books_containing_word }}</strong></p>
-  <ul>
-    {% for book in books_containing_word %}
-      <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-
+  <h2>Visits</h2>
   <p>
     You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.
   </p>

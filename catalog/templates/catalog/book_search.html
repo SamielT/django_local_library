@@ -1,0 +1,63 @@
+{% block content %}
+<h2>Search for a book</h2>
+<form method="get" action="." id="search-form">
+    {% csrf_token %}
+    <input type="text" id="search-box" name="word" placeholder="Search for books...">
+</form>
+
+<div id="results">
+    <p id="result-text"></p>
+    <ul id="result-list"></ul>
+</div>
+
+<script>
+    const searchBox = document.getElementById('search-box');
+    const resultList = document.getElementById('result-list');
+    const resultText = document.getElementById('result-text');
+
+    const sendSearchData = (query) => {
+        fetch(`search/?word=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                // Clear previous results
+                resultList.innerHTML = '';
+                
+                // Update result text
+                if (query) {
+                    resultText.innerHTML = `Results for '${query}': <strong>${data.num_books}</strong>`;
+                } else {
+                    resultText.innerHTML = '';
+                }
+
+                // Add new results
+                data.books.forEach(book => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<a href="${book.url}">${book.title}</a> (${book.author})`;
+                    resultList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+
+    // Debounce function implementation
+    function debounce(func, delay) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Debounced version of sendSearchData
+    const debouncedSendSearchData = debounce((value) => {
+        sendSearchData(value);
+    }, 300);
+
+    // Attach event listener with debounced function
+    searchBox.addEventListener('keyup', (e) => {
+        debouncedSendSearchData(e.target.value);
+    });
+</script>
+{% endblock %}

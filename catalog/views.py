@@ -12,6 +12,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
 
+# Book search imports
+from django.http import JsonResponse
+from django.views import View
+
 import datetime
 
 # Create your views here.
@@ -34,16 +38,6 @@ def index(request):
     num_visits += 1
     request.session['num_visits'] = num_visits
 
-    # Initialize counts for books and genres containing the word
-    num_books_containing_word = 0
-    books_containing_word = []
-    particular_word = ''
-
-    if 'word' in request.GET:
-        particular_word = request.GET['word']
-        books_containing_word = Book.objects.filter(title__icontains=particular_word)
-        num_books_containing_word = books_containing_word.count()
-
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -51,9 +45,6 @@ def index(request):
         'num_authors': num_authors,
         'num_genres': num_genres,
         'num_visits': num_visits,
-        'num_books_containing_word': num_books_containing_word,
-        'particular_word': particular_word,
-        'books_containing_word': books_containing_word,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -185,3 +176,25 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
             return HttpResponseRedirect(
                 reverse("book-delete", kwargs={"pk": self.object.pk})
             )
+        
+# Book search
+class BookSearch(View):
+    def get(self, request):
+        query = request.GET.get('word', '').strip()
+        if query: books = Book.objects.filter(title__icontains=query)
+        else: books = []
+
+        results = [
+            {
+                'title': book.title,
+                'author': str(book.author),
+                'url': book.get_absolute_url(),
+            }
+            for book in books
+        ]
+        
+        return JsonResponse({
+            'num_books': len(results),
+            'books': results,
+        })
+    

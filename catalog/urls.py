@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
     path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author-delete'),
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path('borrowed/', views.StaffAllBorrowed.as_view(), name='all-borrowed'),
+
+    re_path(r'^(?:.*/)?search/$', views.BookSearch.as_view(), name='search'),
 ]
