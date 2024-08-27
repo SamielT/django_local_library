@@ -53,7 +53,7 @@ def index(request):
 # All books
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 5
+    paginate_by = 10
 
 class BookDetailView(generic.DetailView):
     model = Book
@@ -61,7 +61,7 @@ class BookDetailView(generic.DetailView):
 # All authors
 class AuthorListView(generic.ListView):
     model = Author
-    paginate_by = 5
+    paginate_by = 10
 
 class AuthorDetailView(generic.DetailView):
     model = Author
