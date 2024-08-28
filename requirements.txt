@@ -2,7 +2,4 @@ dj-database-url==2.2.0
 Django==4.2.15
 gunicorn==23.0.0
 psycopg2-binary==2.9.9
-virtualenv==20.17.1+ds
-virtualenv-clone==0.3.0
-virtualenvwrapper==4.8.4
 whitenoise==6.7.0
