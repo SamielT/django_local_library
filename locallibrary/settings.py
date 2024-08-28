@@ -29,8 +29,7 @@ load_dotenv(env_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-jqpz+nvcgzb93n+c864-*==f!sjh=h#joenxrt)zccc_u+bdlf'
 import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-jqpz+nvcgzb93n+c864-*==f!sjh=h#joenxrt)zccc_u+bdlf')
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -57,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Add our new application
     'catalog.apps.CatalogConfig', # This object was created for us in /catalog/apps.py
+    'locallibrary',
 ]
 
 MIDDLEWARE = [
