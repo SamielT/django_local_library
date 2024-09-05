@@ -13,5 +13,5 @@
       "dest": "locallibrary/wsgi.py"
     }
   ],
-  "buildCommand": "python manage.py migrate"
+  "buildCommand": "python3 manage.py migrate"
 }
